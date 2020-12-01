@@ -15,10 +15,7 @@ except AttributeError:
     raise ImproperlyConfigured("settings.AWS_EB_DEFAULT_REGION not set, please set it to use eb_sqs_worker django app")
 
 # TODO: make it lazy so we can run tests without setting this settings?
-sqs = boto3.resource('sqs',
-                     region_name=AWS_REGION,
-                     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY)
+sqs = boto3.resource('sqs')
 
 
 def send_task(task_name, task_kwargs, run_locally=None, queue_name=None):
