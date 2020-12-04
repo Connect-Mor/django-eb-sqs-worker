@@ -9,9 +9,13 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+try:
+    AWS_REGION = settings.AWS_EB_DEFAULT_REGION
+except AttributeError:
+    raise ImproperlyConfigured("settings.AWS_EB_DEFAULT_REGION not set, please set it to use eb_sqs django app")
 
 # TODO: make it lazy so we can run tests without setting this settings?
-sqs = boto3.resource('sqs')
+sqs = boto3.resource('sqs', region_name=AWS_REGION,)
 
 
 def send_task(task_name, task_kwargs, run_locally=None, queue_name=None):
